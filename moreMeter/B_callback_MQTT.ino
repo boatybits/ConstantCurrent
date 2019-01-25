@@ -17,6 +17,8 @@ void callback(char* topic, byte * payload, unsigned int length) {
   Serial.println(readString);
 
   if (strcmp(topic, "esp/control") == 0) {  //0 is true
+
+
     switch  (readString.toInt()) {  // Node red sends intigers to topic esp/control from dash buttons
       case 1:
         { sendMQTT("esp/text", readString);
@@ -33,10 +35,12 @@ void callback(char* topic, byte * payload, unsigned int length) {
       case 3:
         sendMQTT("esp/text", readString);
         repeatBlink = 1;
+        send_Data_Flag = 1;
         break;
       case 4:
         sendMQTT("esp/text", readString);
         repeatBlink = 0;
+        send_Data_Flag = 0;
         break;
       case 5:
         sendMQTT("esp/text", readString);
@@ -54,6 +58,9 @@ void callback(char* topic, byte * payload, unsigned int length) {
         break;
     }
   }
-
+  if (strcmp(topic, "esp/controlcurrent") == 0) {  //0 is true
+     currentTarget = readString.toInt();
+     Serial.println(readString.toInt());
+     Serial.println(topic);
+  }
 }
-//_____________________________________________________________

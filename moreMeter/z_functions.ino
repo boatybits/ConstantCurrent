@@ -20,36 +20,47 @@ void sendMQTT(String topic, String message) {
 //                    Send_Data ( )
 //*******************************************************
 void send_Data() {
-  if (send_Data_Flag > 0) {
 
-    //is it time to process the next state code?
-    if (currentMillis - mySendDatamillis < dly_send_Data)
-    {
-      //No, it is not time
-      return;
-    }
 
+  //is it time to process the next state code?
+  if (currentMillis - mySendDatamillis < dly_send_Data)
+  {
+    //No, it is not time
+    return;
+  }
+
+
+  if (currentMillis - mySendDatamillis > dly_send_Data)
+  {
     //Yes, it is now time
 
-    //Serial.println("******************");
+    sendMQTT("esp/current", String(inaCurrent));
+    sendMQTT("esp/voltage", String(inaVoltage));
+    if (send_Data_Flag > 0) {
+      //Serial.println("******************");
 
 
-    //Serial.print("shunt current: ");
-    Serial.println(inaCurrent);
-    //Serial.println(" mA");
-    //Serial.print(",");
-    //Serial.print("bus voltage:   ");
-    //Serial.println(inaVoltage * 1000, 4);
-    //Serial.println(" V");
+      Serial.print("shunt current: ");
+      Serial.print(inaCurrent);
+      Serial.println(" mA");
+      Serial.print(",");
+      Serial.print("bus voltage:   ");
+      Serial.println(inaVoltage * 1000, 4);
+      Serial.println(" V");
 
-    //Serial.print("pulseWidth:    ");
-    //Serial.print(pulseWidth);
+      Serial.print("pulseWidth:    ");
+      Serial.println(pulseWidth);
 
-    //Serial.print(ina219.busPower() * 1000, 4);
-    // Serial.println(" mW");
+      Serial.print("currentTarget   ");
+      Serial.println(currentTarget);
 
-    //Serial.println(" ");
-    //Serial.println(" ");
+      //Serial.print(ina219.busPower() * 1000, 4);
+      // Serial.println(" mW");
+
+      //Serial.println(" ");
+      //Serial.println(" ");
+    }
+
 
     mySendDatamillis  = currentMillis;     //reset timing
   }
@@ -76,7 +87,7 @@ void blinky()
 
     //Yes, it is now time
     myLEDmillis = currentMillis;     //reset timing
-    //Serial.print("repeatBlink=");
+    //Serial.print("repeatBlink = ");
     //Serial.println(repeatBlink);
     //state code
     switch (ledState)

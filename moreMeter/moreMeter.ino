@@ -24,9 +24,10 @@ unsigned long dlyBlink = 500;
 unsigned long currentMillis;
 unsigned long myLEDmillis = 0;
 int delayTime = 1000;
-int send_Data_Flag = 1;
+int send_Data_Flag = 0;
 int mySendDatamillis = 0;
-int dly_send_Data = 100;
+int dly_send_Data = 500;
+int currentTarget = 100;
 float inaCurrent = 0;
 float inaVoltage = 0;
 
@@ -96,7 +97,7 @@ void setup() {
 
   client.publish("esp/text", "ESP8266 started");
   client.subscribe("esp/control");
-
+  client.subscribe("esp/controlcurrent");
   ina219.begin();
   // begin calls:
   // configure() with default values RANGE_32V, GAIN_8_320MV, ADC_12BIT, ADC_12BIT, CONT_SH_BUS
@@ -138,14 +139,14 @@ void loop() {
   inaCurrent = inaCurrent / 10 * 1000;
   inaVoltage = ina219.busVoltage();
 
-  if (inaCurrent < 100) {
+  if (inaCurrent < currentTarget) {
     //Serial.print("Going up       ");
     //Serial.print("Current:       "); Serial.print(current_mA); Serial.println(" mA");
     pulseWidth++;
     if (pulseWidth > 1023) pulseWidth = 1023;
     if (inaVoltage < 2.8) pulseWidth = 0;
   }
-  else if (inaCurrent > 100) {
+  else if (inaCurrent > currentTarget) {
     ///Serial.print("Going down");
     //Serial.print("Current:       "); Serial.print(current_mA); Serial.println(" mA");
     pulseWidth--;
