@@ -9,7 +9,7 @@
 //                         Variables
 //*****************************************************************************************************************************************
 const char* ssid = "openplotter";
-const char* password =  "12345678";
+const char* password =  "12345678";  dd
 IPAddress mqttServer(10, 10, 10, 1);
 const int mqttPort = 1883;
 const char* mqttUser = "cafonhvu";
