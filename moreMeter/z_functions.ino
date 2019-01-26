@@ -36,6 +36,10 @@ void send_Data() {
 
     sendMQTT("esp/current", String(inaCurrent));
     sendMQTT("esp/voltage", String(inaVoltage));
+    sendMQTT("esp/pulseWidth", String(pulseWidth));
+
+
+
     if (send_Data_Flag > 0) {
       //Serial.println("******************");
 
