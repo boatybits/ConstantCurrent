@@ -47,17 +47,17 @@ void send_Data() {
       Serial.print("shunt current: ");
       Serial.print(inaCurrent);
       Serial.println(" mA");
-      Serial.print(",");
+
       Serial.print("bus voltage:   ");
-      Serial.println(inaVoltage * 1000, 4);
-      Serial.println(" V");
+      Serial.print(inaVoltage);
+      Serial.println("V");
 
       Serial.print("pulseWidth:    ");
       Serial.println(pulseWidth);
 
       Serial.print("currentTarget   ");
       Serial.println(currentTarget);
-
+      Serial.println();
       //Serial.print(ina219.busPower() * 1000, 4);
       // Serial.println(" mW");
 

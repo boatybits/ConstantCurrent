@@ -1,12 +1,27 @@
 void current_loop() {
 
 
-  inaCurrent = 0;
-  for (int i = 1; i < 11; i++) {
-    inaCurrent += ina219.shuntCurrent();
+
+  currentArray[0] = ina219.shuntCurrent() * 1000;
+  voltageArray[0] = ina219.busVoltage();
+
+  for (int i = 0; i < 9; i++) {
+    cTotal = cTotal + currentArray[i];
+    vTotal = vTotal + voltageArray[i]  ;
+
+    currentArray[i + 1] = currentArray[i];
+    voltageArray[i + 1] = voltageArray[i];
   }
-  inaCurrent = inaCurrent / 10 * 1000;
+
+  inaCurrent = cTotal / 10;
+  inaVoltage = vTotal / 10;
+  cTotal = 0;
+  vTotal = 0;
+
+  inaCurrent = ina219.shuntCurrent() * 1000;
   inaVoltage = ina219.busVoltage();
+
+
 
   if (inaCurrent < currentTarget) {
     //Serial.print("Going up       ");
@@ -23,4 +38,7 @@ void current_loop() {
     if (inaVoltage < 2.8) pulseWidth = 0;
   }
   analogWrite(pwmPin, pulseWidth);
+
+  ina219.recalibrate();
+  ina219.reconfig();
 }
