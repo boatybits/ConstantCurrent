@@ -12,8 +12,8 @@ const char* ssid = "openplotter";
 const char* password =  "12345678";
 IPAddress mqttServer(10, 10, 10, 1);
 const int mqttPort = 1883;
-const char* mqttUser = "cafonhvu";
-const char* mqttPassword = "Usp_VhNLl897";
+const char* mqttUser = "YOUR MQTT USER NAME";
+const char* mqttPassword = "YOUR MQTT PASSWORD";
 
 int ledPin   = 2;         // onboard LED on esp8266 is pin 2
 
